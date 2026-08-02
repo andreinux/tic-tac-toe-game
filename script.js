@@ -8,6 +8,8 @@ tiles.forEach((tile)=> {
 
         let targetIndex = tile.dataset.id;
 
+        if (gameboard.board[targetIndex]  !== "") return;
+
         if (currentPlayer === player1){
         gameboard.board[targetIndex] = "X";
         tile.textContent = "X";
@@ -99,3 +101,6 @@ function restart (){
         tile.textContent = "";
     })
 }
+
+//prevent overwrite 
+
