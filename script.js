@@ -10,6 +10,8 @@ tiles.forEach((tile)=> {
 
         gameboard.board[targetIndex] = "X";
         console.log(gameboard.board);
+
+        tile.textContent = "X";
     })
 })
 
