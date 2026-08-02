@@ -98,6 +98,7 @@ function switchPlayer (){
 
 //check winner function
 let matchWinner = document.querySelector("#match-winner");
+
 function checkWinner (){
 
     for (const pattern of winningPatterns){
@@ -113,7 +114,9 @@ function checkWinner (){
     matchWinner.textContent = `${player1Name} wins!`;
     }else if ( currentPlayer === player1){
         matchWinner.textContent = `${player2Name} wins!`;
-    } restart();
+    };
+    }else if (!gameboard.board.includes("")){
+        matchWinner.textContent = "Its a Tie!";
     }
 
 
