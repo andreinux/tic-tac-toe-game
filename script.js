@@ -1,5 +1,9 @@
 
 //
+let gameOver = false;
+
+let player1Name = "Player 1";
+let player2Name = "Player 2";
 
 
 //signup
@@ -13,12 +17,17 @@ let player2Input = document.querySelector("#player2");
 
 let matchName = document.querySelector("#match-name");
 
+
+
 signupBtn.addEventListener("click", (e)=> {
     e.preventDefault();
     
      player1Name = player1Input.value.trim() || "Player 1";
    player2Name = player2Input.value.trim() || "Player 2";
 
+   player1.name = player1Name;
+    player2.name = player2Name;
+    
     signup.classList.add("hidden");
     gameboardSection.classList.remove("hidden");
 
@@ -28,30 +37,29 @@ signupBtn.addEventListener("click", (e)=> {
 //game
 let tiles = document.querySelectorAll(".tile");
 
-tiles.forEach((tile)=> {
-    tile.addEventListener("click" , ()=> {
-        console.log(tile.dataset.id);
+tiles.forEach((tile) => {
+    tile.addEventListener("click", () => {
+        if (gameOver ===  true) return;
 
-        let targetIndex = tile.dataset.id;
+        const targetIndex = tile.dataset.id;
 
-        if (gameboard.board[targetIndex]  !== "") return;
+        if (gameboard.board[targetIndex] !== "") return;
 
-        if (currentPlayer === player1){
-        gameboard.board[targetIndex] = "X";
-        tile.textContent = "X";
+        gameboard.board[targetIndex] = currentPlayer.marker;
+        tile.textContent = currentPlayer.marker;
 
-        }else if (currentPlayer === player2){
-            gameboard.board[targetIndex] = "O"
-            tile.textContent = "O";
+        if (checkWinner()) {
+            return; 
         }
 
-    
+        if (!gameboard.board.includes("")) {
+            matchWinner.textContent = "It's a Tie!";
+            return;
+        }
+
         switchPlayer();
-        checkWinner();
-        console.log(currentPlayer.name);
-        console.log(gameboard.board);
-    })
-})
+    });
+});
 
 //gameboard 
 
@@ -66,9 +74,6 @@ function createPlayer (name, marker){
         marker
     }
 }
-
-let player1Name = "Player 1";
-let player2Name = "Player 2";
 
 const player1 = createPlayer(player1Name, "X");
 const player2 = createPlayer(player2Name , "O");
@@ -98,38 +103,36 @@ function switchPlayer (){
 
 //check winner function
 let matchWinner = document.querySelector("#match-winner");
+function checkWinner() {
+    for (const pattern of winningPatterns) {
 
-function checkWinner (){
+        const a = pattern[0];
+        const b = pattern[1];
+        const c = pattern[2];
 
-    for (const pattern of winningPatterns){
-    const a = pattern[0];
-    const b = pattern[1];
-    const c = pattern[2];
-    
-    if (
-        gameboard.board[a] !== "" &&
-        gameboard.board[a] === gameboard.board[b] &&
-        gameboard.board[b] === gameboard.board[c]
-    ){ if (currentPlayer === player2) {
-    matchWinner.textContent = `${player1Name} wins!`;
-    }else if ( currentPlayer === player1){
-        matchWinner.textContent = `${player2Name} wins!`;
-    };
-    }else if (!gameboard.board.includes("")){
-        matchWinner.textContent = "Its a Tie!";
+        if (
+            gameboard.board[a] !== "" &&
+            gameboard.board[a] === gameboard.board[b] &&
+            gameboard.board[b] === gameboard.board[c]
+        ) {
+            matchWinner.textContent = `${currentPlayer.name} wins!`;
+            
+            gameOver =  true;
+            return true;
+        }
     }
 
-
-
+    return false;
 }
-}
-
 function restart (){
     gameboard.board.fill("");
     currentPlayer = player1;
     tiles.forEach((tile)=> {
         tile.textContent = "";
     })
+
+    matchWinner.textContent = "";
+    gameOver = false;
 }
 
 
