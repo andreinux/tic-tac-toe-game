@@ -8,13 +8,19 @@ tiles.forEach((tile)=> {
 
         let targetIndex = tile.dataset.id;
 
+        if (currentPlayer === player1){
         gameboard.board[targetIndex] = "X";
-        console.log(gameboard.board);
-
         tile.textContent = "X";
-         
+
+        }else if (currentPlayer === player2){
+            gameboard.board[targetIndex] = "O"
+            tile.textContent = "O";
+        }
+
+    
         switchPlayer();
         console.log(currentPlayer.name);
+        console.log(gameboard.board);
     })
 })
 
