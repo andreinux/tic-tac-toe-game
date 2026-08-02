@@ -1,5 +1,31 @@
 
 //
+
+
+//signup
+
+let signupBtn = document.querySelector("#submit-btn");
+let signup = document.querySelector("#sign-up");
+let gameboardSection = document.querySelector("#gameboard");
+
+let player1Input = document.querySelector("#player1");
+let player2Input = document.querySelector("#player2");
+
+let matchName = document.querySelector("#match-name");
+
+signupBtn.addEventListener("click", (e)=> {
+    e.preventDefault();
+    
+     player1Name = player1Input.value.trim() || "Player 1";
+   player2Name = player2Input.value.trim() || "Player 2";
+
+    signup.classList.add("hidden");
+    gameboardSection.classList.remove("hidden");
+
+    matchName.textContent = `${player1Name} vs ${player2Name}`
+})
+
+//game
 let tiles = document.querySelectorAll(".tile");
 
 tiles.forEach((tile)=> {
@@ -41,8 +67,11 @@ function createPlayer (name, marker){
     }
 }
 
-const player1 = createPlayer("Player 1", "X");
-const player2 = createPlayer("Player2" , "0");
+let player1Name = "Player 1";
+let player2Name = "Player 2";
+
+const player1 = createPlayer(player1Name, "X");
+const player2 = createPlayer(player2Name , "O");
 
 
 let currentPlayer =  player1;
@@ -68,7 +97,7 @@ function switchPlayer (){
 ];
 
 //check winner function
-
+let matchWinner = document.querySelector("#match-winner");
 function checkWinner (){
 
     for (const pattern of winningPatterns){
@@ -80,17 +109,15 @@ function checkWinner (){
         gameboard.board[a] !== "" &&
         gameboard.board[a] === gameboard.board[b] &&
         gameboard.board[b] === gameboard.board[c]
-    ){ if (currentPlayer === player1) {
-        alert("player1 won");
-    }else if ( currentPlayer === player2){
-        alert("Player2 won");
+    ){ if (currentPlayer === player2) {
+    matchWinner.textContent = `${player1Name} wins!`;
+    }else if ( currentPlayer === player1){
+        matchWinner.textContent = `${player2Name} wins!`;
     } restart();
     }
 
 
-    else {
-        console.log("continue playing");
-    }
+
 }
 }
 
@@ -102,5 +129,10 @@ function restart (){
     })
 }
 
-//prevent overwrite 
 
+
+let restartBtn = document.querySelector("#restartBtn");
+
+restartBtn.addEventListener("click", ()=> {
+    restart();
+})

@@ -11,9 +11,28 @@
     </head>
 
         <body>
-            <h1>tic-tac-toe</h1>
 
-            <div id="board-container">
+            <section id="sign-up">
+                <form id="form">
+                    <legend>Enter Your Names</legend>
+
+                    <label for="player1-name">Player 1:</label>
+                    <input id="player1" placeholder="name">
+
+                    <label for="player2">Player 2:</label>
+                    <input id="player2" placeholder="name">
+
+                    <button id="submit-btn">Play Now!</button>
+                </form>
+            </section>
+            <section id="gameboard" class="hidden">
+            <h1>tic-tac-toe</h1>
+            <div id="match-title">
+                <h1 id="match-name"></h1>
+                <h1 id="match-winner"></h1>
+            </div>
+
+            <div id="board-container" >
                 <button class="tile" data-id="0"></button>
                  <button class="tile" data-id="1"></button>
                   <button class="tile" data-id="2"></button>
@@ -24,5 +43,8 @@
                        <button class="tile" data-id="7"></button>
                         <button class="tile" data-id="8"></button>
             </div>
+
+            <button id="restartBtn">Restart Game</button>
+            </section>
         </body>
   </html>
