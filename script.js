@@ -82,7 +82,7 @@ function checkWinner (){
         alert("player1 won");
     }else if ( currentPlayer === player2){
         alert("Player2 won");
-    }
+    } restart();
     }
 
 
@@ -90,4 +90,12 @@ function checkWinner (){
         console.log("continue playing");
     }
 }
+}
+
+function restart (){
+    gameboard.board.fill("");
+    currentPlayer = player1;
+    tiles.forEach((tile)=> {
+        tile.textContent = "";
+    })
 }
