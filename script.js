@@ -73,9 +73,8 @@ function checkWinner() {
             GameBoard.board[a] === GameBoard.board[b] &&
             GameBoard.board[b] === GameBoard.board[c]
         ) {
-            matchWinner.textContent = `${currentPlayer.name} wins!`;
+             gameOver =  true;
             return currentPlayer;
-            gameOver =  true;
             return true;
         }
     }
@@ -85,15 +84,16 @@ function checkWinner() {
 
 
 function reset (){
-    GameBoard.board.fill("");
+    GameBoard.reset();      
 }
 
 function getCurrentPlayer() {
     return currentPlayer;
 }
 
+
 return {
-    currentPlayer, gameOver, player1Name, player2Name, switchPlayer, getCurrentPlayer,
+    switchPlayer, getCurrentPlayer,
     setPlayerNames, checkWinner, reset
 }
 
@@ -140,6 +140,7 @@ restartBtn.addEventListener("click", ()=> {
     tiles.forEach((tile)=> {
         tile.textContent = "";
         GameController.reset();
+        matchWinner.textContent = "";
     })
 })
 
@@ -153,17 +154,19 @@ tiles.forEach((tile) => {
 
         GameBoard.board[targetIndex] = GameController.getCurrentPlayer().marker;
         tile.textContent = GameController.getCurrentPlayer().marker;
+        
+const winner = GameController.checkWinner();
+
+if (winner) {
+    matchWinner.textContent = `${winner.name} wins!`;
+}
+
 
         GameController.switchPlayer();
 
     });
 });
 
-const winner = GameController.checkWinner();
-
-if (winner) {
-    matchWinner.textContent = `${winner.name} wins!`;
-}
 
 })();
 
