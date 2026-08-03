@@ -63,32 +63,6 @@ tiles.forEach((tile) => {
 
 //gameboard 
 
-const gameboard = {
-    board : ["", "", "", "", "", "", "", "", ""],
-    
-     winningPatterns : [
-    [0, 1, 2],
-    [3, 4, 5],
-    [6, 7, 8],
-    [0, 3, 6],
-    [1, 4, 7],
-    [2, 5, 8],
-    [0, 4, 8],
-    [2, 4, 6],
-],
-
-restart: function restart (){
-    gameboard.board.fill("");
-    currentPlayer = player1;
-    tiles.forEach((tile)=> {
-        tile.textContent = "";
-    })
-
-    matchWinner.textContent = "";
-    gameOver = false;
-},
-
-};
 
 //player factory
 function createPlayer (name, marker){
@@ -113,11 +87,10 @@ function switchPlayer (){
 }
 
 
-
 //check winner function
 let matchWinner = document.querySelector("#match-winner");
 function checkWinner() {
-    for (const pattern of gameboard.winningPatterns) {
+    for (const pattern of winningPatterns) {
 
         const a = pattern[0];
         const b = pattern[1];
@@ -138,10 +111,49 @@ function checkWinner() {
     return false;
 }
 
-
-
 let restartBtn = document.querySelector("#restartBtn");
 
 restartBtn.addEventListener("click", ()=> {
-    gameboard.restart();
+    restart();
 })
+
+
+const GameBoard = (()=> {
+    
+    
+   
+   const board = ["", "", "", "", "", "", "", "", ""]
+ 
+
+    const winningPatterns = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6],
+];
+
+
+function reset (){
+    board.fill("");
+}
+
+return {
+    reset, winningPatterns, board
+}
+
+})();
+
+
+function reset (){
+    currentPlayer = player1;
+    tiles.forEach((tile)=> {
+        tile.textContent = "";
+    })
+
+    matchWinner.textContent = "";
+    gameOver = false;
+}
