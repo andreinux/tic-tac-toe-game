@@ -134,6 +134,7 @@ let matchName = document.querySelector("#match-name");
 let tiles = document.querySelectorAll(".tile");
 let matchWinner = document.querySelector("#match-winner");
 let restartBtn = document.querySelector("#restartBtn");
+let turnIndicator =  document.querySelector("#turn-indicator");
 
         
 signupBtn.addEventListener("click", (e)=> {
@@ -148,6 +149,7 @@ GameController.setPlayerNames(player1Name, player2Name);
     gameboardSection.classList.remove("hidden");
 
     matchName.textContent = `${player1Name} VS ${player2Name}`
+    updateTurnIndicator();
 })
 
 restartBtn.addEventListener("click", ()=> {
@@ -156,6 +158,7 @@ restartBtn.addEventListener("click", ()=> {
         GameController.reset();
         matchWinner.textContent = "";
         GameController.setGameOver(false);
+        updateTurnIndicator();
         
     })
 })
@@ -177,21 +180,29 @@ const winner = GameController.checkWinner();
 
 if (winner) {
     matchWinner.textContent = `${winner.name} wins!`;
+    turnIndicator.textContent = "";
     return;
 }
 
 if (GameController.checkTie()){
     matchWinner.textContent = "It's A Tie!";
+     turnIndicator.textContent = "";
     return;
 
 }
 
 
         GameController.switchPlayer();
+        updateTurnIndicator();
 
     });
 });
 
+function updateTurnIndicator() {
+    const player = GameController.getCurrentPlayer();
 
+    turnIndicator.textContent =
+        `${player.name}'s Turn (${player.marker})`;
+}
 })();
 
