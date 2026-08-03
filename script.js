@@ -82,6 +82,9 @@ function checkWinner() {
     return false;
 }
 
+function checkTie() {
+    return !GameBoard.board.includes("");
+}
 
 function reset (){
     GameBoard.reset();      
@@ -94,7 +97,7 @@ function getCurrentPlayer() {
 
 return {
     switchPlayer, getCurrentPlayer,
-    setPlayerNames, checkWinner, reset
+    setPlayerNames, checkWinner, reset, checkTie
 }
 
 })();
@@ -141,6 +144,7 @@ restartBtn.addEventListener("click", ()=> {
         tile.textContent = "";
         GameController.reset();
         matchWinner.textContent = "";
+        GameController.gameOver = false;
     })
 })
 
@@ -148,6 +152,8 @@ restartBtn.addEventListener("click", ()=> {
     
 tiles.forEach((tile) => {
     tile.addEventListener("click", () => {
+
+        if (GameController.gameOver) return;
         
         const targetIndex = tile.dataset.id;
         if (GameBoard.board[targetIndex] !== "") return;
@@ -159,6 +165,13 @@ const winner = GameController.checkWinner();
 
 if (winner) {
     matchWinner.textContent = `${winner.name} wins!`;
+    GameController.gameOver = true;
+}
+
+if (GameController.checkTie()){
+    matchWinner.textContent = "It's A Tie!";
+    return;
+
 }
 
 
