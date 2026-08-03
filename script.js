@@ -34,7 +34,16 @@ return {
 //GAMECONTROLLER MODULE
 const GameController = (()=> {
 
-    
+let gameOver = false;
+
+function isGameOver() {
+    return gameOver;
+}
+
+function setGameOver(value) {
+    gameOver = value;
+}
+
 
 let player1Name = "Player 1";
 let player2Name = "Player 2";
@@ -50,7 +59,7 @@ const player2 = createPlayer(player2Name , "O");
 
 
 let currentPlayer =  player1;
-let gameOver = false;
+
 
 
 function switchPlayer (){
@@ -75,7 +84,6 @@ function checkWinner() {
         ) {
              gameOver =  true;
             return currentPlayer;
-            return true;
         }
     }
 
@@ -87,7 +95,9 @@ function checkTie() {
 }
 
 function reset (){
-    GameBoard.reset();      
+    GameBoard.reset();     
+     currentPlayer = player1;
+    gameOver = false; 
 }
 
 function getCurrentPlayer() {
@@ -97,7 +107,8 @@ function getCurrentPlayer() {
 
 return {
     switchPlayer, getCurrentPlayer,
-    setPlayerNames, checkWinner, reset, checkTie
+    setPlayerNames, checkWinner, reset, checkTie, isGameOver,
+    setGameOver,
 }
 
 })();
@@ -136,7 +147,7 @@ GameController.setPlayerNames(player1Name, player2Name);
     signup.classList.add("hidden");
     gameboardSection.classList.remove("hidden");
 
-    matchName.textContent = `${player1Name} vs ${player2Name}`
+    matchName.textContent = `${player1Name} VS ${player2Name}`
 })
 
 restartBtn.addEventListener("click", ()=> {
@@ -144,7 +155,8 @@ restartBtn.addEventListener("click", ()=> {
         tile.textContent = "";
         GameController.reset();
         matchWinner.textContent = "";
-        GameController.gameOver = false;
+        GameController.setGameOver(false);
+        
     })
 })
 
@@ -153,7 +165,7 @@ restartBtn.addEventListener("click", ()=> {
 tiles.forEach((tile) => {
     tile.addEventListener("click", () => {
 
-        if (GameController.gameOver) return;
+        if (GameController.isGameOver()) return;
         
         const targetIndex = tile.dataset.id;
         if (GameBoard.board[targetIndex] !== "") return;
@@ -165,7 +177,7 @@ const winner = GameController.checkWinner();
 
 if (winner) {
     matchWinner.textContent = `${winner.name} wins!`;
-    GameController.gameOver = true;
+    return;
 }
 
 if (GameController.checkTie()){
